@@ -64,6 +64,7 @@ const setBg = () => {
   let timeOfDay = getTimeOfDay();
   let bgNumb = randomNum;
   bgNumb = String(bgNumb);
+  bgNumb = bgNumb.padStart(2, '0');
   let image = new Image();
   image.src = `https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/${timeOfDay}/${bgNumb}.jpg`;
   image.addEventListener("load", function() {
