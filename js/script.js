@@ -2,6 +2,9 @@ const time = document.querySelector('.time');
 const data = document.querySelector('.date');
 const greeting = document.querySelector('.greeting')
 const name = document.querySelector('.name');
+const weatherIcon = document.querySelector('.weather-icon');
+const temperature = document.querySelector('.temperature');
+const weatherDescription = document.querySelector('.weather-description');
 let randomNum;
 
 const showTime = () => {
@@ -87,6 +90,17 @@ const getSlidePrev = () => {
   }
   setBg()
 }
+async function getWeather() {  
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=Караганда&lang=ru&appid=08f2a575dda978b9c539199e54df03b0&units=metric`;
+  const res = await fetch(url);
+  const data = await res.json(); 
+
+  weatherIcon.classList.add(`owf-${data.weather[0].id}`);
+  temperature.textContent = `${data.main.temp}°C`;
+  weatherDescription.textContent = data.weather[0].description;
+}
+getWeather();
+document.querySelector('.city').addEventListener('change', getWeather);
 
 document.querySelector('.slide-next').addEventListener('click', getSlideNext);
 document.querySelector('.slide-prev').addEventListener('click', getSlidePrev);
