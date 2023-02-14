@@ -8,6 +8,9 @@ const weatherDescription = document.querySelector('.weather-description');
 const city = document.querySelector('.city');
 city.value = "Karaganda";
 let randomNum;
+const audio = new Audio();
+let isPlay = false;
+let playNum = 0;
 const objQuote = [
   {
     text: "You see things and say 'Why?', but I dream things and say 'Why not?'",
@@ -50,7 +53,28 @@ const objQuote = [
     author: "Wayne Gretzky"
   }
 ];
-
+const playList = [
+  {      
+    title: 'Aqua Caelestis',
+    src: '../assets/sounds/Aqua_Caelestis.mp3',
+    duration: '00:58'
+  },  
+  {      
+    title: 'River Flows In You',
+    src: '../assets/sounds/River Flows In You.mp3',
+    duration: '03:50'
+  },
+  {
+    title: 'Ennio Morricone',
+    src: '../assets/sounds/Ennio Morricone.mp3',
+    duration: '1:37'
+  },
+  {
+    title: 'Summer Wind',
+    src: '../assets/sounds/Summer Wind.mp3',
+    duration: '1:50'
+  }
+]
 const showTime = () => {
     const date = new Date();
     const currentTime = date.toLocaleTimeString();
@@ -155,7 +179,23 @@ async function getWeather() {
 }
 getWeather();
 document.querySelector('.city').addEventListener('change', getWeather);
+const playAudio = () => {
+  if (isPlay === false) {
+    audio.src = '../assets/sounds/River Flows In You.mp3';
+    audio.currentTime = 0;
+    audio.play()
+    isPlay = true;
+  } else if (isPlay === true) {
+    audio.pause()
+    isPlay = false;
+  }
+}
+const toggleBtn = () => {
+  document.querySelector('.play').classList.toggle('pause');
+}
 
+document.querySelector('.play').addEventListener('click', playAudio);
+document.querySelector('.play').addEventListener('click', toggleBtn);
 document.querySelector('.slide-next').addEventListener('click', getSlideNext);
 document.querySelector('.slide-prev').addEventListener('click', getSlidePrev);
 getRandomNum();
