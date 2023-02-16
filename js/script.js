@@ -56,7 +56,7 @@ const objQuote = [
 const playList = [
   {      
     title: 'Aqua Caelestis',
-    src: '../assets/sounds/Aqua_Caelestis.mp3',
+    src: '../assets/sounds/Aqua Caelestis.mp3',
     duration: '00:58'
   },  
   {      
@@ -181,7 +181,7 @@ getWeather();
 document.querySelector('.city').addEventListener('change', getWeather);
 const playAudio = () => {
   if (isPlay === false) {
-    audio.src = '../assets/sounds/River Flows In You.mp3';
+    audio.src = playList[playNum].src;
     audio.currentTime = 0;
     audio.play()
     isPlay = true;
@@ -190,10 +190,36 @@ const playAudio = () => {
     isPlay = false;
   }
 }
+const btnAudio = () => {
+  if (isPlay === false) {
+    document.querySelector('.play').classList.add('pause');
+  }
+}
+document.querySelector('.play-prev').addEventListener('click', btnAudio);
+document.querySelector('.play-next').addEventListener('click', btnAudio);
 const toggleBtn = () => {
   document.querySelector('.play').classList.toggle('pause');
 }
-
+const playNext = () => {
+  if (playNum === 3) {
+    playNum = 0;
+  } else {
+    playNum += 1;
+  }
+  isPlay = false;
+  playAudio();
+}
+document.querySelector('.play-next').addEventListener('click', playNext);
+const playPrev = () => {
+  if (playNum === 0) {
+    playNum = 3;
+  } else {
+    playNum -= 1;
+  }
+  isPlay = false;
+  playAudio();
+}
+document.querySelector('.play-prev').addEventListener('click', playPrev);
 document.querySelector('.play').addEventListener('click', playAudio);
 document.querySelector('.play').addEventListener('click', toggleBtn);
 document.querySelector('.slide-next').addEventListener('click', getSlideNext);
