@@ -9,6 +9,7 @@ const city = document.querySelector('.city');
 city.value = "Karaganda";
 let randomNum;
 const audio = new Audio();
+const liElements = document.querySelectorAll('.play-item');
 let isPlay = false;
 let playNum = 0;
 const objQuote = [
@@ -180,16 +181,36 @@ async function getWeather() {
 getWeather();
 document.querySelector('.city').addEventListener('change', getWeather);
 const playAudio = () => {
+  const firstItem = document.querySelector('.play-item:first-child');
   if (isPlay === false) {
+    firstItem.classList.add('item-active');
     audio.src = playList[playNum].src;
     audio.currentTime = 0;
     audio.play()
     isPlay = true;
   } else if (isPlay === true) {
+    firstItem.classList.remove('item-active');
     audio.pause()
     isPlay = false;
   }
 }
+liElements.forEach((item, index) => {
+  item.addEventListener('click', () => {
+    playNum = index;
+    isPlay = false;
+    playAudio();
+    changeToggleBtn();
+  });
+});
+const changeToggleBtn = () => {
+  const playButton = document.querySelector('.play');
+  playButton.classList.toggle('pause', isPlay);
+
+  const liElements = document.querySelectorAll('.play-item');
+  liElements.forEach((item, index) => {
+    item.classList.toggle('item-active', index === playNum);
+  });
+};
 const btnAudio = () => {
   if (isPlay === false) {
     document.querySelector('.play').classList.add('pause');
@@ -208,6 +229,7 @@ const playNext = () => {
   }
   isPlay = false;
   playAudio();
+  changeToggleBtn();
 }
 document.querySelector('.play-next').addEventListener('click', playNext);
 const playPrev = () => {
@@ -218,6 +240,7 @@ const playPrev = () => {
   }
   isPlay = false;
   playAudio();
+  changeToggleBtn();
 }
 document.querySelector('.play-prev').addEventListener('click', playPrev);
 document.querySelector('.play').addEventListener('click', playAudio);
